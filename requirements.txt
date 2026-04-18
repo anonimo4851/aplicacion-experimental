@@ -1,0 +1,15 @@
+# requirements.txt
+# Sistema de Comidas Rápidas - Dependencias Python
+
+# Framework GUI
+PySide6==6.6.1
+PySide6-Addons==6.6.1
+PySide6-Essentials==6.6.1
+
+# Manejo de impresión térmica
+python-escpos==2.2.0
+pyusb==1.2.1
+Pillow==10.1.0
+
+# Utilidades
+python-dateutil==2.8.2

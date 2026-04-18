@@ -1,0 +1,101 @@
+{
+  "materia_prima": {
+    "carne blanda": {
+      "nombre": "carne blanda",
+      "categoria": "Carnes",
+      "unidad": "kg",
+      "stock": 50.0,
+      "costo_unitario": 34000.0,
+      "stock_minimo": 10.0,
+      "fecha_creacion": "2026-04-12T06:25:45.261280"
+    }
+  },
+  "recetas": {
+    "vestidos": [
+      {
+        "ingrediente": "carne blanda",
+        "cantidad": 1.0,
+        "unidad": "kg"
+      }
+    ]
+  },
+  "movimientos": [
+    {
+      "fecha": "2026-04-11T08:16:59.929041",
+      "ingrediente": "queso",
+      "tipo": "ingreso",
+      "cantidad": 2.0,
+      "motivo": "Ajuste manual"
+    },
+    {
+      "fecha": "2026-04-11T08:17:31.161778",
+      "ingrediente": "queso",
+      "tipo": "ingreso",
+      "cantidad": 60.0,
+      "motivo": "Ajuste manual"
+    },
+    {
+      "fecha": "2026-04-11T08:19:43.014856",
+      "ingrediente": "yogurt",
+      "tipo": "ingreso",
+      "cantidad": 11.0,
+      "motivo": "Ajuste manual"
+    },
+    {
+      "fecha": "2026-04-11T10:04:18.636639",
+      "ingrediente": "queso",
+      "tipo": "ingreso",
+      "cantidad": 0.01,
+      "motivo": "Ajuste manual"
+    },
+    {
+      "fecha": "2026-04-11T10:04:30.532734",
+      "ingrediente": "queso",
+      "tipo": "ingreso",
+      "cantidad": 0.01,
+      "motivo": "Ajuste manual"
+    },
+    {
+      "fecha": "2026-04-11T10:04:37.959952",
+      "ingrediente": "queso",
+      "tipo": "ingreso",
+      "cantidad": 62.0,
+      "motivo": "Ajuste manual"
+    },
+    {
+      "fecha": "2026-04-11T10:05:14.863325",
+      "ingrediente": "queso",
+      "tipo": "egreso",
+      "cantidad": 62.02,
+      "motivo": "Ajuste manual"
+    },
+    {
+      "fecha": "2026-04-12T05:21:45.552434",
+      "ingrediente": "madera gruesa",
+      "tipo": "ingreso",
+      "cantidad": 50.0,
+      "motivo": "Stock inicial"
+    },
+    {
+      "fecha": "2026-04-12T05:24:28.383421",
+      "ingrediente": "madera delgada",
+      "tipo": "ingreso",
+      "cantidad": 10.0,
+      "motivo": "Stock inicial"
+    },
+    {
+      "fecha": "2026-04-12T05:24:39.543311",
+      "ingrediente": "madera delgada",
+      "tipo": "ingreso",
+      "cantidad": 10.0,
+      "motivo": "Ajuste manual"
+    },
+    {
+      "fecha": "2026-04-12T06:25:45.261320",
+      "ingrediente": "carne blanda",
+      "tipo": "ingreso",
+      "cantidad": 50.0,
+      "motivo": "Stock inicial"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "timestamp": "2026-04-11T07:26:23.160948",
+    "usuario": "dios",
+    "accion": "agregar_categoria",
+    "tipo": "inventario",
+    "detalles": {
+      "categoria": "ropa de nino"
+    }
+  },
+  {
+    "timestamp": "2026-04-11T07:27:42.339393",
+    "usuario": "dios",
+    "accion": "agregar_producto",
+    "tipo": "inventario",
+    "detalles": {
+      "producto": "vestidos",
+      "cantidad_anterior": 0,
+      "cantidad_nueva": 50,
+      "diferencia": 50,
+      "precio_unitario": 65000.0,
+      "valor_cambio": 3250000.0
+    }
+  },
+  {
+    "timestamp": "2026-04-11T07:58:03.296859",
+    "usuario": "dios",
+    "accion": "consumo",
+    "tipo": "consumo",
+    "detalles": {
+      "producto": "vestidos",
+      "cantidad_consumida": 4,
+      "precio_unitario": 65000.0,
+      "valor_total": 260000.0,
+      "motivo": "venta"
+    }
+  },
+  {
+    "timestamp": "2026-04-11T09:54:16.154934",
+    "usuario": "dios",
+    "accion": "modificar_producto",
+    "tipo": "inventario",
+    "detalles": {
+      "producto_original": "carne blanda",
+      "producto_nuevo": "somier",
+      "categoria": "carnes",
+      "precio": 17000.0
+    }
+  },
+  {
+    "timestamp": "2026-04-11T09:54:23.411141",
+    "usuario": "dios",
+    "accion": "modificar_producto",
+    "tipo": "inventario",
+    "detalles": {
+      "producto_original": "aguacate",
+      "producto_nuevo": "escaparate",
+      "categoria": "embutidos",
+      "precio": 5000.0
+    }
+  },
+  {
+    "timestamp": "2026-04-11T09:54:30.035084",
+    "usuario": "dios",
+    "accion": "modificar_producto",
+    "tipo": "inventario",
+    "detalles": {
+      "producto_original": "queso",
+      "producto_nuevo": "juego de sala",
+      "categoria": "embutidos",
+      "precio": 12000.0
+    }
+  },
+  {
+    "timestamp": "2026-04-11T09:54:49.148066",
+    "usuario": "dios",
+    "accion": "renombrar_categoria",
+    "tipo": "inventario",
+    "detalles": {
+      "categoria_original": "carnes",
+      "categoria_nueva": "madera"
+    }
+  },
+  {
+    "timestamp": "2026-04-11T09:55:06.740761",
+    "usuario": "dios",
+    "accion": "renombrar_categoria",
+    "tipo": "inventario",
+    "detalles": {
+      "categoria_original": "embutidos",
+      "categoria_nueva": "roble"
+    }
+  },
+  {
+    "timestamp": "2026-04-11T09:57:54.880682",
+    "usuario": "dios",
+    "accion": "consumo",
+    "tipo": "consumo",
+    "detalles": {
+      "producto": "somier",
+      "cantidad_consumida": 1,
+      "precio_unitario": 17000.0,
+      "valor_total": 17000.0,
+      "motivo": "venta"
+    }
+  }
+]

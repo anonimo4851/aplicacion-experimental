@@ -1,0 +1,137 @@
+{
+  "completados": [
+    {
+      "id": "f9679c6e-190a-4bae-ab10-8aedf11c88e7",
+      "cliente": "saasdasd",
+      "telefono": "4527452752",
+      "direccion": "aaaaaaaaaaaa",
+      "notas": "no",
+      "items": [
+        {
+          "nombre": "carne blanda",
+          "cantidad": 1,
+          "precio_unitario": 17000.0,
+          "subtotal": 17000.0
+        }
+      ],
+      "total": 17000.0,
+      "hora": "07:24",
+      "fecha": "2026-04-11",
+      "estado": "rechazado"
+    },
+    {
+      "id": "2c261991-4f79-4f89-abec-a372b394d8d7",
+      "cliente": "karol",
+      "telefono": "3015886644",
+      "direccion": "mi casa",
+      "notas": "sisdfgasdgasdfg",
+      "items": [
+        {
+          "nombre": "vestidos",
+          "cantidad": 4,
+          "precio_unitario": 65000.0,
+          "subtotal": 260000.0
+        }
+      ],
+      "total": 260000.0,
+      "hora": "07:28",
+      "fecha": "2026-04-11",
+      "estado": "confirmado"
+    },
+    {
+      "id": "253ae59b-7e9e-4ea8-a78c-0b1e73cd3fa7",
+      "cliente": "angel",
+      "telefono": "3015668844",
+      "direccion": "calle 118#25 bis 07",
+      "notas": "",
+      "items": [
+        {
+          "nombre": "juego de sala",
+          "cantidad": 2,
+          "precio_unitario": 12000.0,
+          "subtotal": 24000.0
+        },
+        {
+          "nombre": "somier",
+          "cantidad": 1,
+          "precio_unitario": 17000.0,
+          "subtotal": 17000.0
+        },
+        {
+          "nombre": "escaparate",
+          "cantidad": 8,
+          "precio_unitario": 5000.0,
+          "subtotal": 40000.0
+        },
+        {
+          "nombre": "vestidos",
+          "cantidad": 1,
+          "precio_unitario": 65000.0,
+          "subtotal": 65000.0
+        }
+      ],
+      "total": 146000.0,
+      "hora": "09:56",
+      "fecha": "2026-04-11",
+      "estado": "rechazado"
+    },
+    {
+      "id": "5ba55bf6-6dcc-45a1-9b64-cfbfdfe72b2a",
+      "cliente": "qweq",
+      "telefono": "weqweq",
+      "direccion": "eqweq",
+      "notas": "",
+      "items": [
+        {
+          "nombre": "somier",
+          "cantidad": 1,
+          "precio_unitario": 17000.0,
+          "subtotal": 17000.0
+        }
+      ],
+      "total": 17000.0,
+      "hora": "09:57",
+      "fecha": "2026-04-11",
+      "estado": "confirmado"
+    },
+    {
+      "id": "495bee1f-a0d7-41a9-a20d-f524f824ea21",
+      "cliente": "asdasda",
+      "telefono": "sdasdas",
+      "direccion": "asdasdasdasd",
+      "notas": "",
+      "items": [
+        {
+          "nombre": "somier",
+          "cantidad": 1,
+          "precio_unitario": 17000.0,
+          "subtotal": 17000.0
+        }
+      ],
+      "total": 17000.0,
+      "hora": "10:02",
+      "fecha": "2026-04-11",
+      "estado": "rechazado"
+    },
+    {
+      "id": "6a4fde93-322c-40ab-a3a6-fd90a21792d1",
+      "cliente": "asdasd",
+      "telefono": "asdasdasd",
+      "direccion": "asdasdas",
+      "notas": "",
+      "items": [
+        {
+          "nombre": "vestidos",
+          "cantidad": 1,
+          "precio_unitario": 65000.0,
+          "subtotal": 65000.0
+        }
+      ],
+      "total": 65000.0,
+      "hora": "05:17",
+      "fecha": "2026-04-12",
+      "estado": "confirmado"
+    }
+  ],
+  "pendientes": []
+}

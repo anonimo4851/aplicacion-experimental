@@ -1,0 +1,43 @@
+[
+  {
+    "timestamp": "2026-04-12T05:17:38.933960",
+    "usuario": "dios",
+    "accion": "consumo",
+    "tipo": "consumo",
+    "detalles": {
+      "producto": "vestidos",
+      "cantidad_consumida": 1,
+      "precio_unitario": 65000.0,
+      "valor_total": 65000.0,
+      "motivo": "venta"
+    }
+  },
+  {
+    "timestamp": "2026-04-12T05:18:29.616830",
+    "usuario": "dios",
+    "accion": "agregar_stock",
+    "tipo": "inventario",
+    "detalles": {
+      "producto": "escaparate",
+      "cantidad_anterior": 400,
+      "cantidad_nueva": 405,
+      "diferencia": 5,
+      "precio_unitario": 5000.0,
+      "valor_cambio": 25000.0
+    }
+  },
+  {
+    "timestamp": "2026-04-12T05:18:48.945341",
+    "usuario": "dios",
+    "accion": "agregar_stock",
+    "tipo": "inventario",
+    "detalles": {
+      "producto": "escaparate",
+      "cantidad_anterior": 405,
+      "cantidad_nueva": 406,
+      "diferencia": 1,
+      "precio_unitario": 5000.0,
+      "valor_cambio": 5000.0
+    }
+  }
+]

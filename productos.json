@@ -1,0 +1,30 @@
+{
+  "vestidos": {
+    "nombre": "vestidos",
+    "categoria": "ropa de nino",
+    "precio": 65000.0,
+    "cantidad": 45,
+    "fecha_creacion": "2026-04-11T07:27:42.340088"
+  },
+  "somier": {
+    "nombre": "somier",
+    "categoria": "madera",
+    "precio": 17000.0,
+    "cantidad": 59,
+    "fecha_creacion": "2026-04-10T02:15:26.060057"
+  },
+  "escaparate": {
+    "nombre": "escaparate",
+    "categoria": "roble",
+    "precio": 5000.0,
+    "cantidad": 406,
+    "fecha_creacion": "2026-04-10T03:59:54.160541"
+  },
+  "juego de sala": {
+    "nombre": "juego de sala",
+    "categoria": "roble",
+    "precio": 12000.0,
+    "cantidad": 20,
+    "fecha_creacion": "2026-04-10T03:15:21.529677"
+  }
+}

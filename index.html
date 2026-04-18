@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍔 FastFood Express - Tu Comida Rápida Favorita</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <!-- Header con información -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🍔 FastFood Express</h1>
+                    <p>¡Delivery en 30-45 minutos!</p>
+                </div>
+                <div class="header-info">
+                    <div class="info-item">
+                        <span class="icon">🕐</span>
+                        <span>Lun-Dom: 11:00 - 23:00</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📞</span>
+                        <span>+54 11 1234-5678</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📍</span>
+                        <span>Zona de delivery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="🔍 Buscar hamburguesas, pizzas, bebidas...">
+                    <button id="clearSearch" style="display: none;">✕</button>
+                </div>
+                <button class="cart-toggle" id="cartToggle">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                    <span class="cart-total">$<span id="cartTotalNav">0.00</span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-wrapper">
+                <!-- Panel izquierdo - Menú -->
+                <div class="menu-panel" id="menuPanel">
+                    <!-- Ofertas destacadas -->
+                    <section class="featured-section">
+                        <h2>🔥 Ofertas Destacadas</h2>
+                        <div class="featured-grid" id="featuredGrid">
+                            <!-- Se llena con JavaScript -->
+                        </div>
+                    </section>
+
+                    <!-- Categorías -->
+                    <div class="categories-wrapper">
+                        <h2>📋 Nuestro Menú</h2>
+                        <div class="categories-scroll" id="categoriesContainer">
+                            <!-- Se llena con JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Grid de productos -->
+                    <div class="products-section">
+                        <div class="products-header">
+                            <h2 id="currentCategory">Todos los productos</h2>
+                            <div class="sort-options">
+                                <select id="sortSelect">
+                                    <option value="default">Ordenar por</option>
+                                    <option value="name">Nombre</option>
+                                    <option value="price-asc">Precio: Menor a Mayor</option>
+                                    <option value="price-desc">Precio: Mayor a Menor</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="products-grid" id="productsGrid">
+                            <!-- Se llena con JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel derecho - Carrito -->
+                <div class="cart-panel" id="cartPanel">
+                    <div class="cart-header">
+                        <h2>🛒 Tu Pedido</h2>
+                        <button class="close-cart" id="closeCart">✕</button>
+                    </div>
+
+                    <div class="cart-content">
+                        <!-- Items del carrito -->
+                        <div class="cart-items" id="cartItems">
+                            <div class="empty-cart">
+                                <div class="empty-cart-icon">🛒</div>
+                                <p>Tu carrito está vacío</p>
+                                <p class="empty-cart-hint">Agrega productos del menú</p>
+                            </div>
+                        </div>
+
+                        <!-- Cupón de descuento -->
+                        <div class="coupon-section">
+                            <div class="coupon-input">
+                                <input type="text" id="couponCode" placeholder="Código de descuento">
+                                <button id="applyCoupon">Aplicar</button>
+                            </div>
+                            <div id="couponMessage"></div>
+                        </div>
+
+                        <!-- Resumen del pedido -->
+                        <div class="cart-summary">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span>$<span id="subtotal">0.00</span></span>
+                            </div>
+                            <div class="summary-row" id="discountRow" style="display: none;">
+                                <span>Descuento:</span>
+                                <span class="discount">-$<span id="discount">0.00</span></span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Envío:</span>
+                                <span id="shippingCost">Gratis</span>
+                            </div>
+                            <div class="summary-row total-row">
+                                <span>Total:</span>
+                                <span>$<span id="cartTotal">0.00</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Botón de checkout -->
+                        <button class="checkout-btn" id="checkoutBtn" disabled>
+                            Proceder al pago 🚀
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de checkout -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Completa tu pedido</h2>
+                <button class="modal-close" id="closeModal">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="checkoutForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerName">Nombre completo *</label>
+                            <input type="text" id="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">Teléfono *</label>
+                            <input type="tel" id="customerPhone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerAddress">Dirección de entrega *</label>
+                        <textarea id="customerAddress" rows="2" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paymentMethod">Método de pago</label>
+                            <select id="paymentMethod">
+                                <option value="cash">Efectivo</option>
+                                <option value="card">Tarjeta (en entrega)</option>
+                                <option value="transfer">Transferencia</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryTime">Horario preferido</label>
+                            <select id="deliveryTime">
+                                <option value="asap">Lo antes posible</option>
+                                <option value="12-14">12:00 - 14:00</option>
+                                <option value="14-16">14:00 - 16:00</option>
+                                <option value="16-18">16:00 - 18:00</option>
+                                <option value="18-20">18:00 - 20:00</option>
+                                <option value="20-22">20:00 - 22:00</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="orderNotes">Notas adicionales</label>
+                        <textarea id="orderNotes" rows="2" placeholder="Ej: Sin cebolla, alérgico a..."></textarea>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <h3>Resumen del pedido</h3>
+                        <div id="orderSummaryItems"></div>
+                        <div class="order-total">
+                            <span>Total a pagar:</span>
+                            <strong>$<span id="modalTotal">0.00</span></strong>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelCheckout">Cancelar</button>
+                        <button type="submit" class="btn-primary" id="confirmOrder">
+                            <span class="btn-text">Confirmar pedido</span>
+                            <span class="btn-loading" style="display: none;">Procesando...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content modal-confirmation">
+            <div class="confirmation-content">
+                <div class="success-icon">✅</div>
+                <h2>¡Pedido Confirmado!</h2>
+                <p>Tu pedido ha sido recibido y está siendo preparado.</p>
+                <div class="order-details">
+                    <p><strong>Número de pedido:</strong> <span id="orderNumber"></span></p>
+                    <p><strong>Tiempo estimado:</strong> <span id="estimatedTime"></span></p>
+                    <p><strong>Total:</strong> $<span id="confirmedTotal"></span></p>
+                </div>
+                <p class="confirmation-note">Te notificaremos cuando tu pedido esté en camino.</p>
+                <button class="btn-primary" id="newOrderBtn">Hacer otro pedido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificaciones toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
