@@ -18,7 +18,6 @@ from PySide6.QtWidgets import (
     QListWidgetItem, QStatusBar, QFrame, QGroupBox, QHeaderView,
     QTreeWidget, QTreeWidgetItem, QSplitter, QFileDialog, QAbstractItemView
 )
-from PySide6.QtCore import Qt, QTimer, Signal, QObject
 from PySide6.QtGui import QAction, QFont, QIcon
 
 from inventario import Inventario
@@ -863,7 +862,6 @@ class AplicacionComidasRapidas(QMainWindow):
 
     def copiar_url_api(self):
         """Copiar la URL de la API al portapapeles"""
-        from PySide6.QtGui import QClipboard
         
         clipboard = QApplication.clipboard()
         clipboard.setText("http://localhost:8081/api")
