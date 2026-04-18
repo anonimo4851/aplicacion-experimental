@@ -1,5 +1,5 @@
 // Configuración
-const API_URL = 'https://tu-url-de-ngrok.ngrok-free.app/api';
+const API_URL = '/api';
 let productos = [];
 let carrito = [];
 let categorias = new Set();

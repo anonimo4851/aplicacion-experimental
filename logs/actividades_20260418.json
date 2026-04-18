@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": "2026-04-18T16:29:06.511760",
+    "usuario": "dios",
+    "accion": "actualizar_script_js",
+    "tipo": "inventario",
+    "detalles": {
+      "url": "https://subchronically-flocculable-jenise.ngrok-free.dev/api",
+      "archivo": "script.js"
+    }
+  }
+]

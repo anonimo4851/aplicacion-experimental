@@ -341,24 +341,50 @@ class AplicacionComidasRapidas(QMainWindow):
             QMessageBox.critical(self, "❌ Error", 
                 f"Error al restaurar el backup:\n\n{str(e)}")
 
+    def copiar_url_pagina_web(self):
+        """Copiar la URL pública de la página web al portapapeles"""
+        url_ngrok = self.obtener_url_ngrok()
+        
+        if url_ngrok:
+            QApplication.clipboard().setText(url_ngrok)
+            QMessageBox.information(self, "✅ URL Copiada", 
+                f"URL de la página web copiada al portapapeles:\n\n"
+                f"{url_ngrok}\n\n"
+                f"📱 Comparte este enlace con tus clientes para que puedan:\n"
+                f"• Ver el menú\n"
+                f"• Hacer pedidos en línea\n"
+                f"• Consultar precios")
+        else:
+            QMessageBox.warning(self, "⚠️ ngrok no detectado", 
+                "No se detectó ngrok ejecutándose.\n\n"
+                "Haz clic en 'Iniciar ngrok' para publicar tu página web.")
+        
     def actualizar_info_api(self):
-        """Actualizar información de la API en la interfaz"""
+        """Actualizar información de la API y página web en la interfaz"""
         url_ngrok = self.obtener_url_ngrok()
         ngrok_activo = self.verificar_estado_ngrok()
-        
-        texto = "✅ API REST activa en:\n"
-        texto += "   • Local: http://localhost:8081\n"
-        
+
+        texto = "📡 ESTADO DEL SERVIDOR\n"
+        texto += "=" * 40 + "\n\n"
+        texto += "✅ API REST activa en:\n"
+        texto += f"   • Local: http://localhost:8081\n"
+        texto += f"   • Web local: http://localhost:8081\n"
+
         if url_ngrok and ngrok_activo:
-            texto += f"   • Pública: {url_ngrok}\n\n"
+            texto += f"\n🌐 SERVIDOR PÚBLICO ACTIVO\n"
+            texto += f"   • Página web: {url_ngrok}\n"
+            texto += f"   • API REST: {url_ngrok}/api\n\n"
+            texto += "📱 COMPARTE ESTA URL CON TUS CLIENTES:\n"
+            texto += f"   {url_ngrok}\n\n"
             texto += "📡 Endpoints disponibles:\n"
             texto += f"   • GET  {url_ngrok}/api/productos\n"
             texto += f"   • GET  {url_ngrok}/api/categorias\n"
             texto += f"   • POST {url_ngrok}/api/pedido\n"
             texto += f"   • POST {url_ngrok}/api/validar-stock\n\n"
             texto += "🔒 CORS: Habilitado para todos los orígenes\n\n"
-            texto += "⚡ Estado ngrok: 🟢 CONECTADO"
-            
+            texto += "⚡ Estado ngrok: 🟢 CONECTADO\n"
+            texto += "🌍 Tu página web está disponible públicamente"
+
             self.url_ngrok_actual = url_ngrok
         elif ngrok_activo and not url_ngrok:
             texto += "\n📡 ngrok está iniciando...\n"
@@ -371,13 +397,13 @@ class AplicacionComidasRapidas(QMainWindow):
             texto += "   • POST /api/validar-stock\n\n"
             texto += "🔒 CORS: Habilitado para todos los orígenes\n\n"
             texto += "⚡ Estado ngrok: 🔴 DESCONECTADO\n"
-            texto += "💡 Haz clic en 'Iniciar ngrok' para exponer la API a internet"
-            
+            texto += "💡 Haz clic en 'Iniciar ngrok' para publicar tu página web"
+
             self.url_ngrok_actual = None
-        
+
         if hasattr(self, 'text_info_api'):
             self.text_info_api.setText(texto)
-        
+
         # Actualizar texto del botón toggle
         if hasattr(self, 'btn_toggle_ngrok'):
             if ngrok_activo:
@@ -387,24 +413,25 @@ class AplicacionComidasRapidas(QMainWindow):
                         background-color: #ff4757;
                         color: white;
                         font-weight: bold;
+                        padding: 8px;
                     }
                     QPushButton:hover {
                         background-color: #ff2e4c;
                     }
                 """)
             else:
-                self.btn_toggle_ngrok.setText("🚀 Iniciar ngrok")
+                self.btn_toggle_ngrok.setText("🚀 Iniciar ngrok (Publicar página web)")
                 self.btn_toggle_ngrok.setStyleSheet("""
                     QPushButton {
                         background-color: #1e90ff;
                         color: white;
                         font-weight: bold;
+                        padding: 8px;
                     }
                     QPushButton:hover {
                         background-color: #0066cc;
                     }
                 """)
-
 
     def copiar_url_ngrok(self):
         """Copiar la URL pública de ngrok al portapapeles"""
@@ -499,31 +526,44 @@ class AplicacionComidasRapidas(QMainWindow):
 
 
     def iniciar_ngrok_automatico(self):
-        """Intentar iniciar ngrok automáticamente"""
+        """Iniciar ngrok y publicar automáticamente la página web"""
         import subprocess
         import threading
         import shutil
-        
+
         # Verificar si ngrok está instalado
         if shutil.which("ngrok") is None:
             reply = QMessageBox.question(self, "ngrok no encontrado",
                 "ngrok no está instalado o no está en el PATH.\n\n"
                 "¿Deseas abrir la página de descarga de ngrok?",
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-            
+
             if reply == QMessageBox.StandardButton.Yes:
                 import webbrowser
                 webbrowser.open("https://ngrok.com/download")
             return
-        
+
         # Verificar si ya está corriendo
         if self.obtener_url_ngrok():
+            url = self.obtener_url_ngrok()
             QMessageBox.information(self, "ngrok ya activo",
-                "ngrok ya está ejecutándose y conectado.\n\n"
-                f"URL: {self.obtener_url_ngrok()}")
+                f"ngrok ya está ejecutándose.\n\n"
+                f"🌐 URL Pública: {url}\n\n"
+                f"📱 Página web: {url}\n"
+                f"🔌 API REST: {url}/api\n\n"
+                f"¿Deseas abrir la página web en el navegador?")
+            
+            # Preguntar si quiere abrir la página web
+            reply = QMessageBox.question(self, "Abrir página web",
+                "¿Deseas abrir la página web pública en tu navegador?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            
+            if reply == QMessageBox.StandardButton.Yes:
+                webbrowser.open(url)
+            
             self.actualizar_info_api()
             return
-        
+
         # Iniciar ngrok en segundo plano
         def run_ngrok():
             try:
@@ -536,17 +576,54 @@ class AplicacionComidasRapidas(QMainWindow):
                                 stderr=subprocess.DEVNULL)
             except Exception as e:
                 print(f"Error iniciando ngrok: {e}")
-        
-        threading.Thread(target=run_ngrok, daemon=True).start()
-        
-        QMessageBox.information(self, "ngrok iniciando",
-            "ngrok se está iniciando en segundo plano...\n\n"
-            "Espera unos segundos y presiona 'Refrescar' para ver la URL pública.\n\n"
-            "También puedes verificar en: http://localhost:4040")
-        
-        # Programar verificación después de 3 segundos
-        QTimer.singleShot(3000, self.actualizar_info_api)
 
+        threading.Thread(target=run_ngrok, daemon=True).start()
+
+        # Mostrar mensaje de inicio
+        msg = QMessageBox(self)
+        msg.setWindowTitle("🚀 Iniciando ngrok")
+        msg.setText("ngrok se está iniciando en segundo plano...\n\n"
+                    "⏳ Espera unos segundos mientras se establece la conexión.\n\n"
+                    "Cuando esté listo, podrás:\n"
+                    "• Compartir la URL pública con tus clientes\n"
+                    "• Abrir la página web automáticamente\n"
+                    "• Ver el estado en la pestaña Configuración")
+        msg.setIcon(QMessageBox.Icon.Information)
+        msg.show()
+
+        # Programar verificación después de 5 segundos
+        QTimer.singleShot(5000, self.verificar_y_abrir_ngrok)
+
+    def verificar_y_abrir_ngrok(self):
+        """Verificar si ngrok ya está listo y abrir la página web"""
+        import webbrowser  # Por si acaso no está en los imports globales
+        
+        url = self.obtener_url_ngrok()
+        
+        if url:
+            # Actualizar info en la interfaz
+            self.actualizar_info_api()
+            
+            # Mostrar mensaje de éxito con opción de abrir página web
+            reply = QMessageBox.question(self, "✅ ngrok listo",
+                f"¡Conexión establecida exitosamente!\n\n"
+                f"🌐 URL Pública: {url}\n\n"
+                f"📱 Tus clientes pueden acceder a la página web en:\n"
+                f"{url}\n\n"
+                f"🔌 API REST disponible en:\n"
+                f"{url}/api\n\n"
+                f"¿Deseas abrir la página web en tu navegador ahora?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            
+            if reply == QMessageBox.StandardButton.Yes:
+                webbrowser.open(url)  # ← Ahora funcionará correctamente
+            
+            # Actualizar script.js automáticamente si existe
+            self.actualizar_script_js_automatico()
+        else:
+            # Si aún no está listo, programar otra verificación
+            QTimer.singleShot(3000, self.verificar_y_abrir_ngrok)
+            
     def guardar_categorias_materia_prima(self, categorias):
         """Guardar categorías de materia prima"""
         with open("categorias_materia.json", "w", encoding="utf-8") as f:
@@ -3464,239 +3541,147 @@ class AplicacionComidasRapidas(QMainWindow):
     def detener_ngrok(self):
         """Detener el proceso de ngrok"""
         import subprocess
-        import sys
-        
-        reply = QMessageBox.question(self, "Confirmar",
-            "¿Detener ngrok?\n\n"
-            "Esto cerrará el túnel y la URL pública dejará de funcionar.",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        
-        if reply == QMessageBox.StandardButton.No:
-            return
         
         try:
             if sys.platform == "win32":
-                # Windows: usar taskkill para matar ngrok
                 subprocess.run(["taskkill", "/F", "/IM", "ngrok.exe"], 
-                            capture_output=True, timeout=5)
+                            capture_output=True)
             else:
-                # Linux/Mac: usar pkill
-                subprocess.run(["pkill", "-f", "ngrok"], 
-                            capture_output=True, timeout=5)
+                subprocess.run(["pkill", "ngrok"], capture_output=True)
             
-            QMessageBox.information(self, "✅ ngrok detenido", 
-                "ngrok ha sido detenido correctamente.\n\n"
-                "La URL pública ya no está disponible.")
+            QMessageBox.information(self, "✅ ngrok detenido",
+                "ngrok ha sido detenido.\n"
+                "La página web ya no está disponible públicamente.")
             
-            # Actualizar la información mostrada
             self.actualizar_info_api()
-            
-        except subprocess.TimeoutExpired:
-            QMessageBox.warning(self, "⚠️ Advertencia", 
-                "No se pudo detener ngrok automáticamente.\n\n"
-                "Puedes detenerlo manualmente cerrando la terminal donde se ejecuta.")
         except Exception as e:
-            QMessageBox.critical(self, "❌ Error", 
-                f"Error al detener ngrok:\n\n{str(e)}")
+            QMessageBox.warning(self, "⚠️ Advertencia",
+                f"No se pudo detener ngrok automáticamente.\n"
+                f"Puedes detenerlo manualmente con Ctrl+C en la terminal.\n\n"
+                f"Error: {str(e)}")
 
 
     def verificar_estado_ngrok(self):
         """Verificar si ngrok está ejecutándose"""
         import subprocess
-        import sys
         
         try:
             if sys.platform == "win32":
-                result = subprocess.run(["tasklist", "/FI", "IMAGENAME eq ngrok.exe"], 
-                                    capture_output=True, text=True, timeout=5)
+                result = subprocess.run(["tasklist"], capture_output=True, text=True)
                 return "ngrok.exe" in result.stdout
             else:
-                result = subprocess.run(["pgrep", "-f", "ngrok"], 
-                                    capture_output=True, timeout=5)
+                result = subprocess.run(["pgrep", "ngrok"], capture_output=True)
                 return result.returncode == 0
         except:
             return False
 
-
     def toggle_ngrok(self):
         """Alternar entre iniciar y detener ngrok"""
         if self.verificar_estado_ngrok():
-            self.detener_ngrok()
+            # Si está activo, preguntar si quiere detener
+            reply = QMessageBox.question(self, "Detener ngrok",
+                "¿Estás seguro de que deseas detener ngrok?\n\n"
+                "La página web dejará de estar disponible públicamente.",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            
+            if reply == QMessageBox.StandardButton.Yes:
+                self.detener_ngrok()
         else:
+            # Si no está activo, iniciar
             self.iniciar_ngrok_automatico()
+
+    def abrir_pagina_web(self):
+        """Abrir la página web en el navegador"""
+        from PySide6.QtCore import QUrl
+        from PySide6.QtGui import QDesktopServices
+        
+        url_ngrok = self.obtener_url_ngrok()
+        
+        if url_ngrok:
+            QDesktopServices.openUrl(QUrl(url_ngrok))
+            QMessageBox.information(self, "🌐 Página web abierta",
+                f"Abriendo página web en tu navegador:\n{url_ngrok}")
+        else:
+            QDesktopServices.openUrl(QUrl("http://localhost:8081"))
+            QMessageBox.information(self, "🌐 Página web local",
+                "Abriendo página web en modo local:\nhttp://localhost:8081\n\n"
+                "Para hacerla pública, inicia ngrok.")
 
     # ========== PESTAÑA CONFIGURACIÓN ==========
 
     def crear_pestana_configuracion(self):
+        """Crear pestaña de configuración"""
         widget = QWidget()
-        layout = QVBoxLayout()
+        layout = QVBoxLayout()  # ← Este es el layout principal
         widget.setLayout(layout)
         
-        # ========== CONFIGURACIÓN DE IMPRESORA ==========
-        impresion_group = QGroupBox("🖨️ Configuración de Impresora")
-        impresion_layout = QFormLayout()
-        impresion_group.setLayout(impresion_layout)
+        # Grupo de API y ngrok
+        grupo_api = QGroupBox("🌐 Configuración de API y Página Web")
+        layout_api = QVBoxLayout()  # ← Layout para este grupo
+        grupo_api.setLayout(layout_api)
         
-        self.entry_impresora = QLineEdit("POS-80")
-        impresion_layout.addRow("Nombre de impresora:", self.entry_impresora)
-        
-        btn_guardar_impresora = QPushButton("💾 Guardar Configuración de Impresora")
-        btn_guardar_impresora.clicked.connect(self.guardar_configuracion_impresora)
-        impresion_layout.addRow(btn_guardar_impresora)
-        
-        layout.addWidget(impresion_group)
-        
-        # ========== API REST - INFORMACIÓN ==========
-        api_group = QGroupBox("🌐 API REST - Información de Conexión")
-        api_layout = QVBoxLayout()
-        api_group.setLayout(api_layout)
-        
+        # Información de la API
         self.text_info_api = QTextEdit()
         self.text_info_api.setReadOnly(True)
         self.text_info_api.setMaximumHeight(200)
-        api_layout.addWidget(self.text_info_api)
+        layout_api.addWidget(self.text_info_api)
         
-        # Primera fila de botones
-        api_buttons_layout = QHBoxLayout()
+        # Botones de ngrok
+        botones_ngrok_layout = QHBoxLayout()
         
-        btn_refrescar_api = QPushButton("🔄 Refrescar")
-        btn_refrescar_api.clicked.connect(self.actualizar_info_api)
-        btn_refrescar_api.setToolTip("Actualizar la información de conexión")
-        api_buttons_layout.addWidget(btn_refrescar_api)
-        
-        # ⭐ NUEVO: Botón Toggle para Iniciar/Detener ngrok
-        self.btn_toggle_ngrok = QPushButton("🚀 Iniciar ngrok")
+        self.btn_toggle_ngrok = QPushButton("🚀 Iniciar ngrok (Publicar página web)")
         self.btn_toggle_ngrok.clicked.connect(self.toggle_ngrok)
-        self.btn_toggle_ngrok.setToolTip("Iniciar o detener el túnel ngrok")
-        self.btn_toggle_ngrok.setStyleSheet("""
-            QPushButton {
-                background-color: #1e90ff;
-                color: white;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #0066cc;
-            }
-        """)
-        api_buttons_layout.addWidget(self.btn_toggle_ngrok)
+        botones_ngrok_layout.addWidget(self.btn_toggle_ngrok)
         
-        api_layout.addLayout(api_buttons_layout)
+        btn_actualizar_script = QPushButton("🔄 Actualizar script.js automáticamente")
+        btn_actualizar_script.clicked.connect(self.actualizar_script_js_automatico)
+        layout_api.addWidget(btn_actualizar_script)
         
-        # Segunda fila de botones
-        api_buttons_layout2 = QHBoxLayout()
+        btn_refrescar = QPushButton("🔄 Refrescar estado")
+        btn_refrescar.clicked.connect(self.actualizar_info_api)
+        botones_ngrok_layout.addWidget(btn_refrescar)
         
-        btn_copiar_ngrok = QPushButton("📋 Copiar URL ngrok")
-        btn_copiar_ngrok.clicked.connect(self.copiar_url_ngrok)
-        btn_copiar_ngrok.setToolTip("Copiar la URL pública de ngrok al portapapeles")
-        api_buttons_layout2.addWidget(btn_copiar_ngrok)
+        layout_api.addLayout(botones_ngrok_layout)
         
-        btn_copiar_local = QPushButton("📋 Copiar URL Local")
-        btn_copiar_local.clicked.connect(self.copiar_url_local)
-        btn_copiar_local.setToolTip("Copiar la URL local (localhost:8081)")
-        api_buttons_layout2.addWidget(btn_copiar_local)
+        # Nuevos botones para la página web
+        botones_web_layout = QHBoxLayout()
         
-        btn_copiar_ejemplo = QPushButton("💻 Copiar Ejemplo Fetch")
-        btn_copiar_ejemplo.clicked.connect(self.copiar_ejemplo_fetch)
-        btn_copiar_ejemplo.setToolTip("Copiar código JavaScript de ejemplo")
-        api_buttons_layout2.addWidget(btn_copiar_ejemplo)
+        btn_copiar_url_web = QPushButton("📱 Copiar URL de página web")
+        btn_copiar_url_web.clicked.connect(self.copiar_url_pagina_web)
+        botones_web_layout.addWidget(btn_copiar_url_web)
         
-        api_layout.addLayout(api_buttons_layout2)
+        btn_abrir_web = QPushButton("🌐 Abrir página web")
+        btn_abrir_web.clicked.connect(self.abrir_pagina_web)
+        botones_web_layout.addWidget(btn_abrir_web)
         
-        # Tercera fila de botones
-        api_buttons_layout3 = QHBoxLayout()
+        layout_api.addLayout(botones_web_layout)
         
-        btn_actualizar_script = QPushButton("🚀 Actualizar script.js")
-        btn_actualizar_script.clicked.connect(self.actualizar_script_con_confirmacion)
-        btn_actualizar_script.setStyleSheet("""
-            QPushButton {
-                background-color: #2ed573;
-                color: white;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #26b35e;
-            }
-        """)
-        btn_actualizar_script.setToolTip("Actualizar automáticamente el archivo script.js con la URL de ngrok")
-        api_buttons_layout3.addWidget(btn_actualizar_script)
+        # Agregar el grupo al layout principal
+        layout.addWidget(grupo_api)
         
-        btn_restaurar_backup = QPushButton("🔄 Restaurar Backup")
-        btn_restaurar_backup.clicked.connect(self.restaurar_backup_script)
-        btn_restaurar_backup.setToolTip("Restaurar el archivo script.js desde el backup automático")
-        api_buttons_layout3.addWidget(btn_restaurar_backup)
+        # Grupo de configuración de impresora
+        grupo_impresora = QGroupBox("🖨️ Configuración de Impresora")
+        layout_impresora = QFormLayout()
+        grupo_impresora.setLayout(layout_impresora)
         
-        api_layout.addLayout(api_buttons_layout3)
+        self.entry_impresora = QLineEdit()
+        self.entry_impresora.setPlaceholderText("Ej: POS-80, EPSON-TM-T20")
+        layout_impresora.addRow("Nombre de impresora:", self.entry_impresora)
         
-        # Cuarta fila - Abrir ngrok en navegador
-        api_buttons_layout4 = QHBoxLayout()
+        btn_guardar_impresora = QPushButton("💾 Guardar configuración")
+        btn_guardar_impresora.clicked.connect(self.guardar_configuracion_impresora)
+        layout_impresora.addRow(btn_guardar_impresora)
         
-        btn_abrir_ngrok = QPushButton("🌐 Abrir interfaz ngrok")
-        btn_abrir_ngrok.clicked.connect(lambda: webbrowser.open("http://localhost:4040"))
-        btn_abrir_ngrok.setToolTip("Abrir la interfaz web de ngrok (http://localhost:4040)")
-        api_buttons_layout4.addWidget(btn_abrir_ngrok)
+        layout.addWidget(grupo_impresora)
         
-        btn_abrir_api_local = QPushButton("🔗 Abrir API en navegador")
-        btn_abrir_api_local.clicked.connect(lambda: webbrowser.open("http://localhost:8081/api"))
-        btn_abrir_api_local.setToolTip("Abrir la API local en el navegador")
-        api_buttons_layout4.addWidget(btn_abrir_api_local)
-        
-        api_layout.addLayout(api_buttons_layout4)
-        
-        layout.addWidget(api_group)
-        
-        # ========== BACKUP Y RESTAURACIÓN ==========
-        backup_group = QGroupBox("💾 Backup y Restauración")
-        backup_layout = QVBoxLayout()
-        backup_group.setLayout(backup_layout)
-        
-        backup_buttons = QHBoxLayout()
-        btn_backup = QPushButton("📦 Crear Backup")
-        btn_backup.clicked.connect(self.crear_backup)
-        backup_buttons.addWidget(btn_backup)
-        
-        btn_importar = QPushButton("📂 Importar Backup")
-        btn_importar.clicked.connect(self.importar_backup)
-        backup_buttons.addWidget(btn_importar)
-        
-        backup_layout.addLayout(backup_buttons)
-        backup_layout.addWidget(QLabel("📋 El backup incluye: productos, usuarios, categorías, pedidos y logs"))
-        
-        layout.addWidget(backup_group)
-        
-        # ========== SESIÓN ==========
-        sesion_group = QGroupBox("👤 Sesión")
-        sesion_layout = QVBoxLayout()
-        sesion_group.setLayout(sesion_layout)
-        
-        info_usuario = QLabel(f"Usuario actual: {self.auth.usuario_actual} ({'Administrador' if self.auth.es_admin else 'Usuario'})")
-        info_usuario.setStyleSheet("font-weight: bold; color: #2ed573;")
-        sesion_layout.addWidget(info_usuario)
-        
-        btn_cerrar_sesion = QPushButton("🚪 Cerrar Sesión")
-        btn_cerrar_sesion.clicked.connect(self.cerrar_sesion)
-        btn_cerrar_sesion.setStyleSheet("""
-            QPushButton {
-                background-color: #ff4757;
-                color: white;
-                padding: 10px;
-                border-radius: 5px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #ff2e4c;
-            }
-        """)
-        sesion_layout.addWidget(btn_cerrar_sesion)
-        
-        layout.addWidget(sesion_group)
-        
+        # Agregar espacio flexible al final
         layout.addStretch()
         
-        self.tab_widget.addTab(widget, "⚙️ Configuración")
-        
-        # Actualizar información de la API al cargar
+        # Actualizar info de API
         self.actualizar_info_api()
         
+        # Agregar la pestaña
+        self.tab_widget.addTab(widget, "⚙️ Configuración")        
     # ========== MÉTODOS DE AUTENTICACIÓN ==========
     
     def cambiar_password(self):
