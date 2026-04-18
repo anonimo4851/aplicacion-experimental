@@ -3609,6 +3609,67 @@ class AplicacionComidasRapidas(QMainWindow):
 
     # ========== PESTAÑA CONFIGURACIÓN ==========
 
+    def verificar_configuracion_web(self):
+        """Verificar que la página web esté correctamente configurada"""
+        import urllib.request
+        import json
+        
+        diagnosticos = []
+        
+        # 1. Verificar API local
+        try:
+            req = urllib.request.Request("http://localhost:8081/api/productos")
+            with urllib.request.urlopen(req, timeout=3) as r:
+                data = json.load(r)
+                diagnosticos.append("✅ API local funcionando")
+                diagnosticos.append(f"   Productos: {len(data.get('productos', []))}")
+        except Exception as e:
+            diagnosticos.append(f"❌ API local falló: {e}")
+        
+        # 2. Verificar ngrok
+        url_ngrok = self.obtener_url_ngrok()
+        if url_ngrok:
+            diagnosticos.append(f"\n✅ ngrok URL: {url_ngrok}")
+            diagnosticos.append(f"   Página web: {url_ngrok}")
+            diagnosticos.append(f"   API: {url_ngrok}/api")
+            
+            try:
+                req = urllib.request.Request(f"{url_ngrok}/api/productos")
+                with urllib.request.urlopen(req, timeout=5) as r:
+                    data = json.load(r)
+                    diagnosticos.append(f"✅ API pública funcionando")
+                    diagnosticos.append(f"   Productos públicos: {len(data.get('productos', []))}")
+            except Exception as e:
+                diagnosticos.append(f"❌ API pública falló: {e}")
+        else:
+            diagnosticos.append("\n❌ ngrok no detectado")
+        
+        # 3. Verificar archivo script.js
+        if os.path.exists("script.js"):
+            with open("script.js", "r") as f:
+                contenido = f.read()
+                if "const API_URL = (function()" in contenido:
+                    diagnosticos.append("\n✅ script.js con auto-detección")
+                elif "const API_URL = 'http://localhost:8081/api'" in contenido:
+                    diagnosticos.append("\n⚠️ script.js con URL fija localhost")
+                elif url_ngrok and url_ngrok in contenido:
+                    diagnosticos.append("\n✅ script.js configurado con URL de ngrok")
+                else:
+                    diagnosticos.append("\n❌ script.js no configurado correctamente")
+        
+        # Mostrar diagnóstico
+        QMessageBox.information(self, "🔍 Diagnóstico de configuración",
+            "\n".join(diagnosticos))
+        
+        # Sugerir acciones
+        if url_ngrok:
+            reply = QMessageBox.question(self, "Acción recomendada",
+                "¿Deseas abrir la página web pública en tu navegador?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            if reply == QMessageBox.StandardButton.Yes:
+                from PySide6.QtCore import QUrl
+                from PySide6.QtGui import QDesktopServices
+                QDesktopServices.openUrl(QUrl(url_ngrok))
     def crear_pestana_configuracion(self):
         """Crear pestaña de configuración"""
         widget = QWidget()
@@ -3671,6 +3732,10 @@ class AplicacionComidasRapidas(QMainWindow):
         btn_guardar_impresora = QPushButton("💾 Guardar configuración")
         btn_guardar_impresora.clicked.connect(self.guardar_configuracion_impresora)
         layout_impresora.addRow(btn_guardar_impresora)
+        
+        btn_diagnostico = QPushButton("🔍 Diagnosticar conexión web")
+        btn_diagnostico.clicked.connect(self.verificar_configuracion_web)
+        layout_api.addWidget(btn_diagnostico)
         
         layout.addWidget(grupo_impresora)
         

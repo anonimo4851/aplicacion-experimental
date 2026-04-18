@@ -1,5 +1,26 @@
+// API URL actualizada automáticamente
+const API_URL = 'https://subchronically-flocculable-jenise.ngrok-free.dev/api';
+
 // Configuración
-const API_URL = '/api';
+const API_URL = (function() {
+    // Si estamos en localhost, usar localhost
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('📍 Modo local detectado');
+        return 'http://localhost:8081/api';
+    }
+    // Si estamos en una URL de ngrok, usar esa misma URL
+    else if (window.location.hostname.includes('ngrok')) {
+        console.log('🌐 Modo ngrok detectado:', window.location.origin);
+        return window.location.origin + '/api';
+    }
+    // Fallback a localhost
+    else {
+        console.log('⚠️ Usando fallback localhost');
+        return 'http://localhost:8081/api';
+    }
+})();
+
+console.log('🔌 API_URL configurada como:', API_URL);
 let productos = [];
 let carrito = [];
 let categorias = new Set();

@@ -8,5 +8,45 @@
       "url": "https://subchronically-flocculable-jenise.ngrok-free.dev/api",
       "archivo": "script.js"
     }
+  },
+  {
+    "timestamp": "2026-04-18T16:36:42.550339",
+    "usuario": "dios",
+    "accion": "actualizar_script_js",
+    "tipo": "inventario",
+    "detalles": {
+      "url": "https://subchronically-flocculable-jenise.ngrok-free.dev/api",
+      "archivo": "script.js"
+    }
+  },
+  {
+    "timestamp": "2026-04-18T16:36:52.181890",
+    "usuario": "dios",
+    "accion": "actualizar_script_js",
+    "tipo": "inventario",
+    "detalles": {
+      "url": "https://subchronically-flocculable-jenise.ngrok-free.dev/api",
+      "archivo": "script.js"
+    }
+  },
+  {
+    "timestamp": "2026-04-18T16:39:41.672657",
+    "usuario": "dios",
+    "accion": "actualizar_script_js",
+    "tipo": "inventario",
+    "detalles": {
+      "url": "https://subchronically-flocculable-jenise.ngrok-free.dev/api",
+      "archivo": "script.js"
+    }
+  },
+  {
+    "timestamp": "2026-04-18T16:42:10.411434",
+    "usuario": "dios",
+    "accion": "actualizar_script_js",
+    "tipo": "inventario",
+    "detalles": {
+      "url": "https://subchronically-flocculable-jenise.ngrok-free.dev/api",
+      "archivo": "script.js"
+    }
   }
 ]
